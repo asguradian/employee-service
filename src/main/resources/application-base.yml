@@ -26,6 +26,15 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
+employee:
+  sql-init:
+    s3:
+      enabled: true
+      bucket: load-data-732048411888-us-east-1-an
+      key: data.sql
+      region: ${AWS_REGION:${AWS_DEFAULT_REGION:us-east-1}}
+      download-path: ${DATA_SQL_DOWNLOAD_PATH:data/data.sql}
+
 logging:
   file:
     name: ${LOG_FILE:logs/employee-service.log}

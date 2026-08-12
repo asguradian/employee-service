@@ -1,5 +1,3 @@
 spring:
   config:
     import: classpath:application-base.yml
-
-# Production currently inherits all settings from application-base.yml.

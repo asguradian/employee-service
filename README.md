@@ -82,6 +82,15 @@ java -jar target/employee-service-0.0.1-SNAPSHOT.jar --spring.config.location=cl
 java -jar target/employee-service-0.0.1-SNAPSHOT.jar --spring.config.location=file:/path/to/application-staging.yml
 ```
 
+Run with the local profile:
+
+```bash
+mvn spring-boot:run -Dspring-boot.run.arguments=--spring.config.location=classpath:application-local.yml
+java -jar target/employee-service-0.0.1-SNAPSHOT.jar --spring.config.location=classpath:application-local.yml
+```
+
+`application-local.yml` imports `application-base.yml`, then overrides S3 seed loading to `enabled: false`.
+
 ## Docker
 
 Build the Ubuntu-based image:
@@ -134,7 +143,20 @@ docker run --rm \
 - Password: empty
 - H2 console: `http://localhost:8080/h2-console`
 
-JPA/Hibernate creates the schema automatically, then `data.sql` loads sample employees.
+JPA/Hibernate creates the schema automatically, then Spring SQL initialization loads employee seed data.
+Local/default runs still use the classpath `data.sql`; staging and production download that file from S3 before SQL initialization.
+
+S3 seed-data settings are read from YAML under `employee.sql-init.s3` and can be overridden with environment variables:
+
+| Variable | Description |
+| --- | --- |
+| `DATA_SQL_S3_ENABLED` | Enable or disable S3 download. Defaults to `true` in staging/prod. |
+| `DATA_SQL_S3_BUCKET` | S3 bucket containing the SQL file. |
+| `DATA_SQL_S3_KEY` | S3 object key. Defaults to `data.sql`. |
+| `AWS_REGION` / `AWS_DEFAULT_REGION` | AWS region used by the S3 client. |
+| `DATA_SQL_DOWNLOAD_PATH` | Local startup download target. |
+
+Credentials are resolved by the AWS SDK default credentials provider chain.
 
 ## API Documentation
 
