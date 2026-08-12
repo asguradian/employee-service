@@ -4,6 +4,7 @@ env:
   variables:
     AWS_DEFAULT_REGION: "us-east-1"
     IMAGE_REPO_NAME: "asgard"
+    CONTAINER_NAME: "employee-service"
 
 phases:
   pre_build:
@@ -48,8 +49,23 @@ phases:
           docker push \
             $ECR_URI/$IMAGE_REPO_NAME:$IMAGE_TAG
 
-          echo "Image published: $ECR_URI/$IMAGE_REPO_NAME:$IMAGE_TAG"
+          IMAGE_URI=$ECR_URI/$IMAGE_REPO_NAME:$IMAGE_TAG
+
+          echo "Image published: $IMAGE_URI"
+
+          echo "Creating imagedefinitions.json..."
+
+          printf '[{"name":"%s","imageUri":"%s"}]' \
+            "$CONTAINER_NAME" "$IMAGE_URI" > imagedefinitions.json
+
+          echo "Generated imagedefinitions.json:"
+          cat imagedefinitions.json
+
         else
           echo "Webhook build - skipping ECR publish"
           echo "Build completed successfully"
         fi
+
+artifacts:
+  files:
+    - imagedefinitions.json
