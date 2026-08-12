@@ -1,0 +1,5 @@
+spring:
+  config:
+    import: classpath:application-base.yml
+
+# Staging currently inherits all settings from application-base.yml.

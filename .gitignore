@@ -1,0 +1,41 @@
+# Build output
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+application-local.yml
+application-local.yaml
+application-dev-local.yml
+application-dev-local.yaml
+
+# IDE and editor files
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test and coverage output
+coverage/
+.coverage
+*.lcov
+
+# Temporary files
+*.tmp
+*.swp
+*.swo

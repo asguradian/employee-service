@@ -1,0 +1,9 @@
+target/
+.git/
+.agents/
+.codex/
+.idea/
+.vscode/
+*.iml
+*.log
+logs/
